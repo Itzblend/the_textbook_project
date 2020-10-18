@@ -99,4 +99,4 @@ def testing():
 #/html/head/meta[2]
 
 if __name__ == "__main__":
-    lift_that_sh@t()
+    fetch_tutorial_data()

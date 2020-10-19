@@ -5,6 +5,20 @@ import shutil
 import json
 import time
 import re
+import logging
+
+## Logger stuff
+
+logger = logging.getLogger('the_textbook_logger')
+logger.setLevel(logging.DEBUG)
+# create file handler which logs even debug messages
+fh = logging.FileHandler('logs/realpython.log')
+fh.setLevel(logging.DEBUG)
+# create formatter and add it to the handlers
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+fh.setFormatter(formatter)
+# add the handlers to logger
+logger.addHandler(fh)
 
 baseurl = 'https://realpython.com/tutorials/all/'
 html_doc = requests.get(baseurl)
@@ -45,6 +59,8 @@ def fetch_tutorial_data():
         shutil.rmtree(file_prefix, ignore_errors=True)
         os.makedirs(file_prefix, exist_ok=False)
 
+        logger.info(f'Processing tutorial: {link.split("/")[-2]}')
+
         resp = requests.get(link.rstrip())
         tutorialsoup = BeautifulSoup(resp.content, 'lxml')
         intro_text = tutorialsoup.find_all('p')
@@ -78,7 +94,7 @@ def fetch_tutorial_data():
             for content in text:
                 body.write(content.text)
 
-        time.sleep(5)
+        time.sleep(1)
 
 def testing():
     with open('tutorials.txt', 'r') as tutorials:

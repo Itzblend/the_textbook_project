@@ -112,16 +112,17 @@ def count_words(words):
 
 
 def create_freq_dict(words):
-    i = 0
-    freqDict_list = []
+
+    words = words
+
     
 
 
 
 ## Run ##
 
-def preprocess_text():
-    with open('data/pytorch-vs-tensorflow/body.txt', 'r') as data:
+def preprocess_text(file):
+    with open(file, 'r') as data:
         data = data.read()
         data = remove_between_square_brackets(data)
         data = replace_contractions(data)
@@ -134,11 +135,21 @@ def preprocess_text():
         #print('Stemmed:\n', stems)
         #print('\nLemmatized:\n', lemmas)
 
+        word_count = count_words(words)
 
-        print(count_words(lemmas))
+
+        return words, stems, lemmas, word_count
+
+def get_word_count():
+
+    words, stems, lemmas = preprocess_text()
+    print(f'words: {words[0]}, stems: {stems[0]}, lemmas: {lemmas[0]}')
+
+
 
 
 
 
 if __name__ == '__main__':
-    preprocess_text()
+    #preprocess_text()
+    get_word_count()
